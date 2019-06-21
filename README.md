@@ -1,6 +1,6 @@
 # 码志
 
-> Fork fo my blog, change some readme
+> Fork for my personal blog, change some readme
 
 我的个人博客：<https://www.dosk.win/>，欢迎 Star 和 Fork。
 
