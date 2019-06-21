@@ -34,9 +34,9 @@ navs:
     href: /categories/
     label: 分类
 
-#   -
-#     href: /archives/
-#     label: 归档
+  -
+    href: /archives/
+    label: 归档
 
   -
     href: /links/
@@ -77,18 +77,22 @@ collections:
         output: true
         permalink: /wiki/:path/
 
-repository: mzlogin/mzlogin.github.io
+repository: springhack/springhack.github.io
 
 # ---------------- #
 #      Comments    #
 # ---------------- #
 # support provider: disqus, gitment, gitalk
-comments_provider: disqus
+comments_provider: gitalk
 # !!!重要!!! 请修改下面这些信息为你自己申请的
 # !!!Important!!! Please modify infos below to yours
-# https://disqus.com
-disqus:
-    username: dosk_springhack
+
+gitalk:
+    owner: springhack
+    repo: springhack.github.io
+    clientID: d3265c5b36a750ca4ea9
+    clientSecret: acac7bebf6e25d6cda467b82a5eb1a239fdd8eb5
+
 # 在使用其它评论组件时可点击显示 Disqus
 lazy_load_disqus : false
 
