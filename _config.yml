@@ -71,7 +71,7 @@ gems:
     - jekyll-sitemap
     - jekyll-feed
     - jemoji
-#     - jekyll-mentions
+    - jekyll-mentions
 collections:
     wiki:
         output: true
