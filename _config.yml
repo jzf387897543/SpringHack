@@ -89,7 +89,7 @@ comments_provider: gitalk
 
 gitalk:
     owner: springhack
-    repo: springhack.github.io
+    repo: SpringHack
     clientID: d3265c5b36a750ca4ea9
     clientSecret: acac7bebf6e25d6cda467b82a5eb1a239fdd8eb5
 
