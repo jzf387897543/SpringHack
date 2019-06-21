@@ -2,7 +2,7 @@
 #   Main Configs   #
 # ---------------- #
 baseurl:
-url: http://www.dosk.win
+url: https://www.dosk.win
 date_format: "ordinal"
 title: "Dosk 技术站"
 subtitle: "SpringHack 的无名技术小站"
