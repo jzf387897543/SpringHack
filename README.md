@@ -1,6 +1,8 @@
 # 码志
 
-我的个人博客：<https://mazhuang.org>，欢迎 Star 和 Fork。
+> Fork fo my blog, change some readme
+
+我的个人博客：<https://www.dosk.win/>，欢迎 Star 和 Fork。
 
 ## 概览
 
@@ -16,7 +18,7 @@
 
 ## 效果预览
 
-**[在线预览 &rarr;](https://mazhuang.org)**
+**[在线预览 &rarr;](https://www.dosk.win/)**
 
 ![screenshot home](https://mazhuang.org/assets/images/screenshots/home.png)
 
