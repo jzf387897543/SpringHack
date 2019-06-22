@@ -108,5 +108,45 @@ simple_jekyll_search:
 # ---------------- #
 #    Analytics     #
 # ---------------- #
-# google:
-#     analytics_id: UA-80669434-1
+google:
+    analytics_id: UA-75374967-1
+
+# ---------------- #
+#      Prose       #
+# ---------------- #
+prose:
+	metadata:
+    	_posts:
+        	- name: "title"
+              field:
+          		element: "text"
+          		label: "Blog title"
+                value: "New blog"
+                placeholder: "New blog"
+            - name: "categories"
+              field:
+          		element: "multiselect"
+                label: "Blog categories"
+                value: "code"
+          		options:
+                  - name: "Code"
+                    value: "code"
+                  - name: "Game"
+                    value: "game"
+                  - name: "Life"
+                    value: "life"
+            - name: "description"
+              field:
+          		element: "text"
+                label: "Blog description"
+                placeholder: "Empty description"
+            - name: "keywords"
+              field:
+          		element: "text"
+                label: "Blog keywords"
+                placeholder: "None keywords"
+            - name: "layout"
+              field:
+          		element: "hidden"
+          		value: "blog"
+    
