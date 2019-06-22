@@ -1,3 +1,7 @@
 - name: 凌乱
   url: http://conw.net/
   src: www
+  
+- name: 空鱼
+  url: http://gizeta.me/
+  src: www
