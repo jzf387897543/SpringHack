@@ -115,14 +115,9 @@ google:
 #      Prose       #
 # ---------------- #
 prose:
+  media: "assets/upload"
   metadata:
     _posts:
-      - name: "title"
-        field:
-          element: "text"
-          label: "Blog title"
-          value: "New blog"
-          placeholder: "New blog"
       - name: "categories"
         field:
           element: "multiselect"
@@ -149,4 +144,3 @@ prose:
         field:
           element: "hidden"
           value: "blog"
-
