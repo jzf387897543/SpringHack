@@ -6,9 +6,12 @@ keywords: 友情链接
 comments: true
 menu: 链接
 permalink: /links/
+published: true
 ---
 
 > God made relatives. Thank God we can choose our friends.
+
+> Personal favorite
 
 {% for link in site.data.links %}
   {% if link.src == 'life' %}
@@ -16,7 +19,7 @@ permalink: /links/
   {% endif %}
 {% endfor %}
 
-> 友情链接
+> Friends
 
 {% for link in site.data.links %}
   {% if link.src == 'www' %}
