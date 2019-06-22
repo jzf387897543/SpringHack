@@ -11,7 +11,7 @@ published: true
 
 > God made relatives. Thank God we can choose our friends.
 
-> Personal favorite
+> Personal favorites
 
 {% for link in site.data.links %}
   {% if link.src == 'life' %}
