@@ -1,3 +1,39 @@
+- name: Raspberry Pi
+  url: https://www.raspberrypi.org/
+  src: life
+
+- name: Arduino
+  url: https://www.arduino.cc/
+  src: life
+
+- name: Adafruit
+  url: https://learn.adafruit.com/
+  src: life  
+
+- name: Sparkfun
+  url: https://learn.sparkfun.com/
+  src: life
+
+- name: Thingiverse
+  url: https://www.thingiverse.com/
+  src: life
+
+- name: V8 Docs
+  url: https://v8docs.nodesource.com/
+  src: life
+
+- name: Codepen
+  url: https://codepen.io/
+  src: life
+
+- name: Desktoppr
+  url: https://www.desktoppr.co/
+  src: life
+
+- name: 路游动漫
+  url: https://www.roame.net/
+  src: life
+
 - name: 凌乱
   url: http://conw.net/
   src: www
