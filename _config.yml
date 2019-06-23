@@ -136,9 +136,9 @@ prose:
           label: "Publish"
           value: "true"
           options:
-            - name: "Yes"
+            - name: "True"
               value: "true"
-            - name: "No"
+            - name: "False"
               value: "false"
       - name: "description"
         field:
