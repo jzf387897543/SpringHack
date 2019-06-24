@@ -145,6 +145,12 @@ prose:
           element: "text"
           label: "Blog description"
           placeholder: "Empty description"
+      - name: "filename"
+        field:
+          element: "text"
+          label: "Filename"
+          value: CURRENT_DATETIME
+          placeholder: "No filename"
       - name: "keywords"
         field:
           element: "text"
