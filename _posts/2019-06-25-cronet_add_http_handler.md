@@ -43,5 +43,10 @@ task_runner_->PostTask(FROM_HERE, base::BindOnce(&dosk::NativeSDKRequestJob::Wor
 
 ### 测试
 
-这里会有一个并发量的限制，是 Chromium 本身的，不太想过多干预
-如果实在是想干预，那么就通过伪造 host 的方式实现，因为也是通过 host 来实现并发量限制的
+1. 这里会有一个并发量的限制，是 Chromium 本身的，不太想过多干预
+2. 如果实在是想干预，那么就通过伪造 host 的方式实现，因为也是通过 host 来实现并发量限制的
+3. 图中上面的请求体现出了并发限制，比较奇怪的是后面的请求时间，其实并不是 4s，只是我们的实现对于 timeline 显示效果有影响，体验上是一致的
+
+![cronet.png]({{site.baseurl}}/assets/upload/cronet.png)
+
+
