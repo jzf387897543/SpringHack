@@ -90,8 +90,8 @@ comments_provider: gitalk
 gitalk:
     owner: springhack
     repo: SpringHack
-    clientID: d3265c5b36a750ca4ea9
-    clientSecret: acac7bebf6e25d6cda467b82a5eb1a239fdd8eb5
+    clientID: 8daaaf8eb3ef6fb3a7fe
+    clientSecret: bc5ea767e95258cbe1500646decaca080540c3f6
 
 # 在使用其它评论组件时可点击显示 Disqus
 lazy_load_disqus : false
@@ -145,12 +145,6 @@ prose:
           element: "text"
           label: "Blog description"
           placeholder: "Empty description"
-      - name: "filename"
-        field:
-          element: "text"
-          label: "Filename"
-          value: CURRENT_DATETIME
-          placeholder: "No filename"
       - name: "keywords"
         field:
           element: "text"
