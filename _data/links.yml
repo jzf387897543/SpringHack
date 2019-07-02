@@ -22,6 +22,10 @@
   url: https://v8docs.nodesource.com/
   src: life
 
+- name: Chromium 中文文档
+  url: https://www.bookstack.cn/books/Chromium_doc_zh
+  src: life
+
 - name: Codepen
   url: https://codepen.io/
   src: life
