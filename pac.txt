@@ -1,11 +1,10 @@
 /*
  * Last Updated:2019-07-14 18:29:43
  */
-var direct = "__DIRECT__";
-if (direct == "__DIR" + "ECT__") direct = "DIRECT;";
+var direct = "DIRECT";
 
-var wall_proxy = function(){ return "__PROXY__"; };
-var wall_v6_proxy = function(){ return "__PROXY__"; };
+var wall_proxy = function(){ return "SOCKS 127.0.0.1:7070"; };
+var wall_v6_proxy = function(){ return "SOCKS 127.0.0.1:7070"; };
 
 var nowall_proxy = function(){ return direct; };
 var ip_proxy = function(){ return nowall_proxy(); };
