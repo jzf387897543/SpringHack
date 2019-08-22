@@ -21,6 +21,10 @@
 - name: V8 Docs
   url: https://v8docs.nodesource.com/
   src: life
+  
+- name: CEF3 Docs
+  url: https://magpcss.org/ceforum/apidocs3/
+  src: life
 
 - name: Chromium 中文文档
   url: https://www.bookstack.cn/books/Chromium_doc_zh
