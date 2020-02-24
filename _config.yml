@@ -150,6 +150,10 @@ prose:
           element: "text"
           label: "Blog keywords"
           placeholder: "None keywords"
+      - name: "title"
+        field:
+          element: "text"
+          label: "Blog title"
       - name: "layout"
         field:
           element: "hidden"
