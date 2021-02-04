@@ -6,19 +6,23 @@ keywords: SpringHack
 comments: true
 menu: 关于
 permalink: /about/
+published: true
 ---
 
 ## 谁啊
 
-> SpringHack，2007年开始写代码，野生软件攻城狮一枚(职位是前端但是写C++好迷啊 -。-)；
+> SpringHack，2007年开始写代码，野生软件攻城狮一枚(误入C++歧途的全干工程师好迷啊 -。-)；
 
-> 沈阳航空航天大学计算机学院软件工程系；
+> SAU CS Software Engineering；
 
-> 目前在帝都北漂，说起来很是艰辛；
+> 帝都北漂，说起来很是艰辛；
 
 > 梦想成为一个小小的全栈；
 
 > 技能点的话:
+  - C/C++/ObjC:
+    - Because Google Chromium
+    - Basic client architecture
   - Web前端向:
     - React + MobX + ES.Next(因为我是会跟随最新特性那种人) + 各种算法&结合引擎(特指V8吧)特点的性能优化
     - Electron 深入研究党，开发了诸多 enhance 模块，深入解决了很多 bug，然后，结合业务改进了进程模型等
@@ -38,14 +42,12 @@ permalink: /about/
     - Android (应用, 底层, Weex等)开发, Windows 开发 (C, C++, C#), macOS应用 & 内核模块开发(IOKit那一套), Linux开发
   - 算法方向
     - NOIP 二等奖渣渣; ACM 国家邀请赛三等奖渣渣, 亚洲区打酱油一次
-  - 工程化
-    - 不知道单独拿出来好不好, 只是因为我本身就是软件工程专业的, 基础课肯定熟悉咩哈哈
   - 美术功底
     - 这个就当娱乐吧, 国画, 满级, 对美有自己的独特理解
   - 坚持不懈
-    - 这个比上一条还娱乐, 不过我确实是那种为解决问题连续20+小时不睡觉的人，我管这个叫学习
+    - 娱乐, 为解决问题连续20+小时不睡觉的人，消费声明
 
-> 因为会的比较杂, 所以对大型项目成员间的交流能起到很好的作用吧 - -
+> 学杂了 - -
 
 
 Email: springhack#live•cn
