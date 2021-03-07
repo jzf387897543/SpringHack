@@ -36,6 +36,18 @@
   {% endif %}
 
   {% case site.comments_provider %}
+    {% when 'valine' %}
+      <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+      <div id="valine-comments"></div>
+      <script>
+        new Valine({
+          el: '#valine-comments',
+          appId: '{{ site.valine.app_id }}',
+          appKey: '{{ site.valine.app_key }}',
+          avatar: 'wavatar',
+          visitor: true
+        })
+      </script>
     {% when 'disqus' %}
       {% if site.disqus and site.disqus.username %}
         {% assign load_disqus = true %}
