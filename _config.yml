@@ -88,8 +88,9 @@ comments_provider: valine
 # !!!Important!!! Please modify infos below to yours
 
 valine:
-    app_id: "RCkSKvvHLgfEKdU2KWJi2gra-gzGzoHsz"
-    app_key: "kT58nWKrzDtrpoqX81hUwqIu"
+    app_id: "sUyXHG4W1Cq2Gn3llM7PYMEb-MdYXbMMI"
+    app_key: "VSsYQwHD4hkfAr5PzdbjfRby"
+    server_urls: "https://comments.dosk.win"
 
 # 在使用其它评论组件时可点击显示 Disqus
 lazy_load_disqus : false
