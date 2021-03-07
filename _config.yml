@@ -43,6 +43,10 @@ navs:
     label: 链接
 
   -
+    href: /old_posts/
+    label: 旧闻
+
+  -
     href: /about/
     label: 关于
 
