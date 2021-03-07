@@ -90,7 +90,7 @@ comments_provider: valine
 valine:
     app_id: "sUyXHG4W1Cq2Gn3llM7PYMEb-MdYXbMMI"
     app_key: "VSsYQwHD4hkfAr5PzdbjfRby"
-    server_urls: "https://comments.dosk.win"
+    server_urls: ""
 
 # 在使用其它评论组件时可点击显示 Disqus
 lazy_load_disqus : false
