@@ -3,14 +3,37 @@ label: default front matter template
 hide_body: false
 fields:
 - type: text
-  name: layout
-  label: layout
+  name: title
+  label: title
+  config:
+    required: true
+- name: date
+  type: datetime
+  label: date
+  description: ''
+  config:
+    required: true
+    date_format: 
+    time_format: 
+    display_utc: false
+  default: now
 - type: list
   name: categories
   label: categories
-- type: text
-  name: title
-  label: title
+  config:
+    use_select: true
+    source:
+      type: simple
+    options:
+    - code
+    - game
+    - work
+    - life
 - type: text
   name: description
   label: description
+- type: text
+  name: layout
+  label: layout
+  config:
+    required: true
