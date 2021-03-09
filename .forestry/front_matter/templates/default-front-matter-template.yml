@@ -37,3 +37,4 @@ fields:
   label: layout
   config:
     required: true
+  default: post
