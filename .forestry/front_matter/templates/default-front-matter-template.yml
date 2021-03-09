@@ -39,5 +39,4 @@ fields:
     required: true
   default: post
 pages:
-- _posts/forestry-jekyll-cms-1.md
 - _posts/forestry-jekyll-cms.md
