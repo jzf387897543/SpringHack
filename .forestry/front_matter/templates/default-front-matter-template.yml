@@ -1,0 +1,22 @@
+---
+label: default front matter template
+hide_body: false
+fields:
+- type: text
+  name: layout
+  label: layout
+- type: list
+  name: categories
+  label: categories
+- type: datetime
+  name: filename
+  label: filename
+- type: text
+  name: description
+  label: description
+- type: text
+  name: keywords
+  label: keywords
+- type: text
+  name: title
+  label: title
