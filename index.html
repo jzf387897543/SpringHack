@@ -41,7 +41,13 @@ comments: false
                       <a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a>
                     </h3>
                     <p class="repo-list-description">
-                        {{ post.excerpt | strip_html | strip }}
+                      {% if post.description %}
+                        {{ post.description | strip_html | strip }}
+                      {% else if post.excerpt %}
+                        {{ post.description | strip_html | strip }}
+                      {% else %}
+                        Emmm, nothing to show ...
+                      {% endif %}
                     </p>
                     <p class="repo-list-meta">
                         <span class="meta-info">
