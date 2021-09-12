@@ -1,0 +1,20 @@
+html {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+input, button, .dosk {
+  padding: 7px;
+  font-size: 15px;
+  border-radius: 20px;
+  margin: 20px 0 20px 0 !important;
+}
+
+input {
+  text-align: center;
+}
