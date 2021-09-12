@@ -14,6 +14,58 @@
   <body>
     <!-- Include the script that builds the page and powers Netlify CMS -->
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
-    <script>CMS.registerPreviewStyle('/admin/markdown.css');</script>
+    <script>
+      // Inject github markdown css
+      CMS.registerPreviewStyle('/admin/markdown.css');
+      // Hook login phase
+      let loginButton = null;
+      let loginForm = null;
+      document.addEventListener('click', (ev) => {
+        // Ignore other click events
+        if (ev
+            && ev.target
+            && ev.target.className
+            && ev.target.className.includes
+            && ev.target.className.includes('LoginButton')) {
+          // Stop propagation right now
+          ev.stopImmediatePropagation();
+          // Exchange UI
+          loginButton = ev.target;
+          loginButton.style.visibility = 'hidden';
+          loginForm = document.createElement('form');
+          loginButton.parentElement.insertBefore(loginForm, loginButton);
+          // Token input element
+          let input = document.createElement('input');
+          input.autocomplete = 'current-password';
+          input.placeholder = 'wtf does the fuck say';
+          input.autofocus = true;
+          input.type = 'password';
+          input.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter') {
+              const token = input.value;
+              const netlifyCmsUser = {
+                token,
+                backendName: 'github'
+              };
+              localStorage.setItem('netlify-cms-user', JSON.stringify(netlifyCmsUser));
+              location.reload();
+            }
+          });
+          input.style.width = '300px';
+          input.style.padding = '7px';
+          input.style.fontSize = '15px';
+          input.style.textAlign = 'center';
+          input.style.borderRadius = '20px';
+          loginForm.appendChild(input);
+          input.focus();
+          // Login form
+          loginForm.style.top = '-38px';
+          loginForm.style.height = '0px';
+          loginForm.style.position = 'relative';
+        }
+        // Oops...
+        return;
+      }, true);
+    </script>
   </body>
 </html>

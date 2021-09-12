@@ -117,47 +117,47 @@ google:
 # ---------------- #
 #      Prose       #
 # ---------------- #
-prose:
-  media: "assets/upload"
-  metadata:
-    _posts:
-      - name: "categories"
-        field:
-          element: "multiselect"
-          label: "Blog categories"
-          value: "code"
-          options:
-            - name: "Code"
-              value: "code"
-            - name: "Game"
-              value: "game"
-            - name: "Life"
-              value: "life"
-      - name: "published"
-        field:
-          element: "multiselect"
-          label: "Publish"
-          value: "true"
-          options:
-            - name: "True"
-              value: "true"
-            - name: "False"
-              value: "false"
-      - name: "description"
-        field:
-          element: "text"
-          label: "Blog description"
-          placeholder: "Empty description"
-      - name: "keywords"
-        field:
-          element: "text"
-          label: "Blog keywords"
-          placeholder: "None keywords"
-      - name: "title"
-        field:
-          element: "text"
-          label: "Blog title"
-      - name: "layout"
-        field:
-          element: "hidden"
-          value: "post"
+# prose:
+#   media: "assets/upload"
+#   metadata:
+#     _posts:
+#       - name: "categories"
+#         field:
+#           element: "multiselect"
+#           label: "Blog categories"
+#           value: "code"
+#           options:
+#             - name: "Code"
+#               value: "code"
+#             - name: "Game"
+#               value: "game"
+#             - name: "Life"
+#               value: "life"
+#       - name: "published"
+#         field:
+#           element: "multiselect"
+#           label: "Publish"
+#           value: "true"
+#           options:
+#             - name: "True"
+#               value: "true"
+#             - name: "False"
+#               value: "false"
+#       - name: "description"
+#         field:
+#           element: "text"
+#           label: "Blog description"
+#           placeholder: "Empty description"
+#       - name: "keywords"
+#         field:
+#           element: "text"
+#           label: "Blog keywords"
+#           placeholder: "None keywords"
+#       - name: "title"
+#         field:
+#           element: "text"
+#           label: "Blog title"
+#       - name: "layout"
+#         field:
+#           element: "hidden"
+#           value: "post"
