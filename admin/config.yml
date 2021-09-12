@@ -1,0 +1,77 @@
+collections:
+  - name: blog
+    label: Blogs
+    create: true
+    folder: _posts
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    preview_path: '{{year}}/{{month}}/{{day}}/{{slug}}'
+    fields:
+      - label: Layout
+        name: layout
+        widget: hidden
+        default: post
+      - label: Title
+        name: title
+        widget: string
+      - label: Categories
+        name: categories
+        widget: select
+        multiple: true
+        default: ['code']
+        options: ['code','life','work','game']
+      - label: Description
+        name: description
+        widget: string
+      - label: Keywords
+        name: keywords
+        widget: string
+        required: false
+      - label: Body
+        name: body
+        widget: markdown
+  - name: page
+    label: Pages
+    create: true
+    folder: pages
+    fields:
+      - label: Layout
+        name: layout
+        widget: hidden
+        default: categories
+      - label: Title
+        name: title
+        widget: string
+      - label: Description
+        name: description
+        widget: string
+      - label: Keywords
+        name: keywords
+        widget: string
+        required: false
+      - label: Comments
+        name: comments
+        widget: boolean
+        required: false
+      - label: Menu
+        name: menu
+        widget: string
+        required: false
+      - label: Permalink
+        name: permalink
+        widget: string
+      - label: Body
+        name: body
+        widget: markdown
+
+backend:
+  name: github
+  branch: main
+  repo: springhack/springhack
+
+media_folder: uploads
+
+site_url: https://www.dosk.win
+
+slug:
+  encoding: unicode
+  clean_accents: false
