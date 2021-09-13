@@ -1,7 +1,7 @@
 /*
  *  Author: SpringHack - springhack@live.cn
- *  Last modified: 2021-09-13 01:25:29
- *  Filename: index.js
+ *  Last modified: 2021-09-13 14:55:03
+ *  Filename: passport.js
  *  Description: Created by SpringHack using vim automatically.
  */
 const COLLECTION_NAME = 'token_collection';
@@ -12,6 +12,9 @@ const ITEM_NAME = 'token_item';
 // await ensureStorageCreated(accessInfo.accessToken);
 // await updateGithubToken(accessInfo.accessToken, (new Date()).toString());
 // console.error(await queryGithubToken(accessInfo.accessToken));
+
+let frame = null;
+const isChild = (new URL(location.href)).host === 'thingproxy.freeboard.io';
 
 function MAKE_API(api, proxy = false) {
   if (proxy) {
@@ -24,7 +27,7 @@ async function doLogin(username, password) {
   return fetch(MAKE_API('/users/login'), {
     headers: {
       accept: 'application/json, text/plain, */*',
-      authorization: `Basic ${btoa(`${username}:${password}`)}`
+      authorization: `Basic ${window['btoa'](`${username}:${password}`)}`
     },
     method: 'POST'
   }).then(res => res.text());
@@ -119,6 +122,14 @@ async function onLogin(event) {
     return;
   }
   event.preventDefault();
+  if (!isChild) {
+    frame.contentWindow.postMessage({
+      type: 'login',
+      user: user.value,
+      pass: pass.value
+    }, '*');
+    return;
+  }
   const siteToken = await doLogin(user.value, pass.value);
   const accessInfo = await getAccessInfo(siteToken);
   await ensureStorageCreated(accessInfo.accessToken);
@@ -128,14 +139,26 @@ async function onLogin(event) {
     return;
   }
   alert(`success: token=${token}`);
-  let url = new URL(location.href);
-  let trueHref = url.pathname.replace('/fetch/', '').replace('passport.html', 'index.html');
-  location.href = `${trueHref}?token=${token}`;
+  window.parent.postMessage({
+    token,
+    type: 'passport'
+  }, '*');
+  // let url = new URL(location.href);
+  // let trueHref = url.pathname.replace('/fetch/', '').replace('passport.html', 'index.html');
+  // location.href = `${trueHref}?token=${token}`;
 }
 
 async function onUpdate(event) {
-  const token = prompt('Github Token Value');
   event.preventDefault();
+  if (!isChild) {
+    frame.contentWindow.postMessage({
+      type: 'update',
+      user: user.value,
+      pass: pass.value
+    }, '*');
+    return;
+  }
+  const token = prompt('Github Token Value');
   if (!token) {
     return;
   }
@@ -149,3 +172,25 @@ async function onUpdate(event) {
 pass.addEventListener('keydown', onLogin);
 login.addEventListener('click', onLogin);
 update.addEventListener('click', onUpdate);
+
+if (isChild) {
+  window.addEventListener('message', (event) => {
+    if (event.data && ['login', 'update'].includes(event.data.type)) {
+      user.value = event.data.user;
+      pass.value = event.data.pass;
+    }
+    window[event.data.type.replace(/\w/, ch => `on${ch.toUpperCase()}`)](new Event('fake'));
+  });
+} else {
+  frame = document.createElement('iframe');
+  frame.style.display = 'none';
+  frame.src = `https://thingproxy.freeboard.io/fetch/${location.href}`;
+  frame.className = 'passport-frame';
+  frame.referrerPolicy = 'no-referrer';
+  document.body.appendChild(frame);
+  window.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'passport') {
+      window.parent.postMessage(event.data, '*');
+    }
+  });
+}

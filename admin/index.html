@@ -12,19 +12,6 @@
     <title>Dosk Admin</title>
   </head>
   <body>
-    <script>
-      (() => {
-        const url = new URL(location.href);
-        const token = url.searchParams.get('token');
-        if (token) {
-          const netlifyCmsUser = {
-            token,
-            backendName: 'github'
-          };
-          localStorage.setItem('netlify-cms-user', JSON.stringify(netlifyCmsUser));
-        }
-      })();
-    </script>
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
     <script>
       // Inject github markdown css
@@ -34,6 +21,7 @@
       let loginForm = null;
       let changed = false;
       let timer = null;
+      let frame = null;
       document.addEventListener('click', (ev) => {
         // Ignore other click events
         if (ev
@@ -48,11 +36,22 @@
           }
           // Open window for auth
           const url = new URL(location.href);
-          const link = document.createElement('a');
-          link.href = `https://thingproxy.freeboard.io/fetch/${url.protocol}//${url.host}${url.pathname.replace('index.html', '')}passport.html`;
-          link.referrerPolicy = 'no-referrer';
-          document.body.appendChild(link);
-          link.click();
+          const frame = document.createElement('iframe');
+          frame.src = './passport.html';
+          frame.className = 'passport-frame';
+          frame.referrerPolicy = 'no-referrer';
+          document.body.appendChild(frame);
+          window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'passport') {
+              const { token } = event.data;
+              const netlifyCmsUser = {
+                token,
+                backendName: 'github'
+              };
+              localStorage.setItem('netlify-cms-user', JSON.stringify(netlifyCmsUser));
+              location.reload();
+            }
+          });
         }
         // Oops...
         return;
@@ -117,5 +116,20 @@
         return;
       }, true);
     </script>
+    <style>
+      .passport-frame {
+        background: white;
+        position: fixed;
+        width: 400px;
+        height: 400px;
+        left: 0;
+        top: calc(50vh - 200px);
+        margin: 0 auto;
+        right: 0;
+        border-radius: 10px;
+        border: 0;
+        box-shadow: 0 0 20px 0px;
+      }
+    </style>
   </body>
 </html>
