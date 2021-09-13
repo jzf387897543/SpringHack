@@ -1,6 +1,6 @@
 /*
  *  Author: SpringHack - springhack@live.cn
- *  Last modified: 2021-09-13 14:55:03
+ *  Last modified: 2021-09-13 18:29:00
  *  Filename: passport.js
  *  Description: Created by SpringHack using vim automatically.
  */
@@ -102,7 +102,7 @@ async function queryGithubToken(accessToken) {
 }
 
 async function updateGithubToken(accessToken, githubToken) {
-  await fetch(MAKE_API(`/collections/${COLLECTION_NAME}/items/${ITEM_NAME}`, true), {
+  return fetch(MAKE_API(`/collections/${COLLECTION_NAME}/items/${ITEM_NAME}`, true), {
     headers: {
       accept: 'application/json, text/plain, */*',
       kvstoreio_api_key: accessToken
@@ -116,9 +116,13 @@ const user = document.getElementById('username');
 const pass = document.getElementById('password');
 const login = document.getElementById('login');
 const update = document.getElementById('update');
+const loading = document.getElementById('loading');
 
 async function onLogin(event) {
   if (event instanceof KeyboardEvent && event.key !== 'Enter') {
+    return;
+  }
+  if (event.type === 'keydown' && !Reflect.has(event, 'key')) {
     return;
   }
   event.preventDefault();
@@ -165,8 +169,8 @@ async function onUpdate(event) {
   const siteToken = await doLogin(user.value, pass.value);
   const accessInfo = await getAccessInfo(siteToken);
   await ensureStorageCreated(accessInfo.accessToken);
-  await updateGithubToken(accessInfo.accessToken, token);
-  alert('Github Token Updated');
+  const result = await updateGithubToken(accessInfo.accessToken, token);
+  alert(`update result ${result.status}`);
 }
 
 pass.addEventListener('keydown', onLogin);
@@ -179,8 +183,13 @@ if (isChild) {
       user.value = event.data.user;
       pass.value = event.data.pass;
     }
-    window[event.data.type.replace(/\w/, ch => `on${ch.toUpperCase()}`)](new Event('fake'));
+    (
+      window[(event.data.type || '').replace(/\w/, ch => `on${ch.toUpperCase()}`)]
+      ||
+      (() => {})
+    )(new Event('fake'));
   });
+  window.parent.postMessage('passport-load', '*');
 } else {
   frame = document.createElement('iframe');
   frame.style.display = 'none';
@@ -189,8 +198,13 @@ if (isChild) {
   frame.referrerPolicy = 'no-referrer';
   document.body.appendChild(frame);
   window.addEventListener('message', (event) => {
-    if (event.data && event.data.type === 'passport') {
-      window.parent.postMessage(event.data, '*');
+    if (event.data) {
+      if (event.data === 'passport-load') {
+        loading.style.display = 'none';
+      }
+      if (event.data.type === 'passport' ) {
+        window.parent.postMessage(event.data, '*');
+      }
     }
   });
 }
