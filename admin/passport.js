@@ -1,6 +1,6 @@
 /*
  *  Author: SpringHack - springhack@live.cn
- *  Last modified: 2021-09-13 18:29:00
+ *  Last modified: 2021-09-14 16:19:07
  *  Filename: passport.js
  *  Description: Created by SpringHack using vim automatically.
  */
@@ -132,24 +132,24 @@ async function onLogin(event) {
       user: user.value,
       pass: pass.value
     }, '*');
+    loading.style.display = 'block';
     return;
   }
   const siteToken = await doLogin(user.value, pass.value);
   const accessInfo = await getAccessInfo(siteToken);
   await ensureStorageCreated(accessInfo.accessToken);
   const token = await queryGithubToken(accessInfo.accessToken);
-  if (!/^\w[\w]+\w$/.test(token || '')) {
+  const success = /^\w[\w]+\w$/.test(token || '');
+  if (success) {
+    alert(`success: token=${token}`);
+    window.parent.postMessage({
+      token,
+      type: 'passport'
+    }, '*');
+  } else {
     alert(`failed: token=${token}`);
-    return;
+    window.parent.postMessage('passport-load', '*');
   }
-  alert(`success: token=${token}`);
-  window.parent.postMessage({
-    token,
-    type: 'passport'
-  }, '*');
-  // let url = new URL(location.href);
-  // let trueHref = url.pathname.replace('/fetch/', '').replace('passport.html', 'index.html');
-  // location.href = `${trueHref}?token=${token}`;
 }
 
 async function onUpdate(event) {
@@ -160,10 +160,12 @@ async function onUpdate(event) {
       user: user.value,
       pass: pass.value
     }, '*');
+    loading.style.display = 'block';
     return;
   }
   const token = prompt('Github Token Value');
   if (!token) {
+    window.parent.postMessage('passport-load', '*');
     return;
   }
   const siteToken = await doLogin(user.value, pass.value);
@@ -171,6 +173,7 @@ async function onUpdate(event) {
   await ensureStorageCreated(accessInfo.accessToken);
   const result = await updateGithubToken(accessInfo.accessToken, token);
   alert(`update result ${result.status}`);
+  window.parent.postMessage('passport-load', '*');
 }
 
 pass.addEventListener('keydown', onLogin);
