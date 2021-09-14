@@ -3,12 +3,15 @@ collections:
     label: Blogs
     create: true
     folder: _posts
-    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    slug: '{{year}}-{{month}}-{{day}}-{{filename}}'
     fields:
       - label: Layout
         name: layout
         widget: hidden
         default: post
+      - label: Filename
+        name: filename
+        widget: filename
       - label: Title
         name: title
         widget: string
