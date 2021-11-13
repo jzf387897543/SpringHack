@@ -30,7 +30,7 @@ keywords: rpi4b
 2. 启动后 `raspi-config` 自行设置一下 `locale/keyboard` 之类，老生常谈，不提了
 3. 安装 docker：`curl -fsSL https://get.docker.io | sudo bash -E -`，再把自己加入到 `docker group` 里
 4. 拉我最后配好的镜像：`docker pull springhack/openwrt-docker:eth0_wlan0_ap`
-5. 最重要两步之一，关闭一部分系统服务，为的是让 openwrt 完全接管网络：
+- 最重要两步之一，关闭一部分系统服务，为的是让 openwrt 完全接管网络：
 
   - DHCP：`sudo systemctl stop dhcpcd && sudo systemctl disable dhcpcd`
 
@@ -40,7 +40,7 @@ keywords: rpi4b
 
   - 重启系统，其实不是必要，就是觉得需要这么做，其实到此为止需要联网的操作也都做完了
 
-6. 最重要两步之二：启动我们的 `docker`
+- 最重要两步之二：启动我们的 `docker`
 
   - RUN：`docker run --detach --privileged --name openwrt --network host --restat always springhack/openwrt-docker:eth0_wlan0_ap /sbin/init`
 
