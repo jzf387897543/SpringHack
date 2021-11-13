@@ -30,6 +30,8 @@ keywords: rpi4b
 2. 启动后 `raspi-config` 自行设置一下 `locale/keyboard` 之类，老生常谈，不提了
 3. 安装 docker：`curl -fsSL https://get.docker.io | sudo bash -E -`，再把自己加入到 `docker group` 里
 4. 拉我最后配好的镜像：`docker pull springhack/openwrt-docker:eth0_wlan0_ap`
+
+
 - 最重要两步之一，关闭一部分系统服务，为的是让 openwrt 完全接管网络：
 
   - DHCP：`sudo systemctl stop dhcpcd && sudo systemctl disable dhcpcd`
@@ -45,6 +47,7 @@ keywords: rpi4b
   - RUN：`docker run --detach --privileged --name openwrt --network host --restat always springhack/openwrt-docker:eth0_wlan0_ap /sbin/init`
 
   - CONFIG：如果你像我一样使用 `lite` 系统没有安装 `desktop` 环境，你会发现终端会输出 `openwrt` 的 `log`，基本无法操作，这是受限于 `openwrt` 的 `/sbin/init` 直接操作 `io` 导致的，我的建议是切换到 `tty2` 等其他的 `tty` 再操作；而且，重启之后也是一样的问题，所以习惯 `tty2` 成为了肌肉记忆
+
 
 6. 到此为止，你得 `openwrt` 已经搭建好了，`ifconfig` 看下 `ip` 就能操作了，这里建议是关掉 `oprnwrt` 的 `dropbear` 转而使用 `raspios_lite` 的内置 `ssh` 服务
 7. 啊，对了，`openwrt` 的账号密码是 `root:sksks`，`wifi` 热点是 `Alxw:11060067`，`lcui web` 默认开启 `80` 端口，你可以自由操作，不过建议慎重操作 `radio0` 因为基本一动就挂
