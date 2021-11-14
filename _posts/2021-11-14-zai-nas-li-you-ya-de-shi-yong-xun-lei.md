@@ -32,8 +32,19 @@ keywords: 迅雷,thunder
 
 ### 使用方法
 
-1. 灰常简单，你需要注意的只有两个地方：挂载的目录和端口，懂得都懂，不设置你就没法用了，命令：`docker run --name xunlei -v /shares/Public/Downloads:/root/downloads -p 1234:6080 springhack/nas_xunlei_docker:1.0.0.2`，建议国内用户配个 `docker registry-mirrors` 不然会很慢
-2. 打开浏览器，输入 `http://{你的IP}:1234`，开始下载吧(`/root/downloads`)
+- 灰常简单，你需要注意的只有两个地方：挂载的目录和端口，懂得都懂，不设置你就没法用了，命令：
+
+```
+docker run \
+ --name xunlei \
+ -v /shares/Public/Downloads:/root/downloads \
+ -p 1234:6080 \
+ springhack/nas_xunlei_docker:1.0.0.2
+```
+
+- 建议国内用户配个 `docker registry-mirrors` 不然会很慢
+
+- 打开浏览器，输入 `http://{你的IP}:1234`，开始下载吧(`/root/downloads`)
 
 ### 存在缺点
 
