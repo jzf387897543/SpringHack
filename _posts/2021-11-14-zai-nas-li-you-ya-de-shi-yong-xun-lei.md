@@ -16,14 +16,14 @@ keywords: 迅雷,thunder
 
 1. `docker + xware`：基本凉透了
 2. 虚拟机跑 `windows`：太卡太慢太吃硬件
-3. 玩物下载：威联通没有官方下载(查了下，其实 `AppCenter` 里有下载，官网没有，不知道是不是因为我自己添加 `qnapclub` 的原因)，并且还有著名的偷跑流量硬盘事件；最重要的是，我特喵的试了下登陆不上(伊开始我是想用它来搞个 `docker` 限制后台流量和 `io` 的)
+3. 玩物下载：威联通没有官方下载(查了下，其实 `AppCenter` 里有下载，官网没有，不知道是不是因为我自己添加 `qnapclub` 的原因)，并且还有著名的偷跑流量硬盘事件；最重要的是，我特喵的试了下登陆不上(一开始我是想用它来搞个 `docker` 限制后台流量和 `io` 的)
 4. 迅雷自己的 `nas` 套件：邀请阶段，而且没有威联通
 5. `wine`：说白了不太想用这个，控制欲比较强，我会对每个程序的每个进程做的事知根知底，这样基本等于裸跑迅雷，兼容性也是个问题
-6. `docker + lxde + com.xunlei.download`：镜像太大，搜到的原文是这个：[bilibili](https://www.bilibili.com/s/video/BV1qN411Q7AN)
+6. `docker + lxde + nvc + novnc + baidudisk + neteasemusic + xunlei`：镜像太大，搜到的原文是这个：[bilibili](https://www.bilibili.com/s/video/BV1qN411Q7AN)
 
 ### 我的方案
 
-1. 先调查下上述方案 5 跑的到底是个什么玩意，所以我就拉他的 `docker` 镜像，但是我本地都是在虚拟机里测试，硬盘没分购，又懒得重启改硬盘大小，Orz...
+1. 先调查下上述方案 5 跑的到底是个什么玩意，所以我就拉他的 `docker` 镜像，但是我本地都是在虚拟机里测试，硬盘没分够，又懒得重启改硬盘大小，Orz...
 2. 突然想起了前段时间公司的产品适配 `UOS` 系统，我冥冥之中感觉他用的就是这个版本的迅雷，搜了一下图，果然是，那就开搞
 3. 我一开始想装个 `USO` 虚拟机，提取他的源地址，但是我发现根本不用这么麻烦，`Arch AUR` 里有人已经帮我做了这件事，我就直接拿来主义了(反正只是为了一个地址写 `Dockerfile` 文件嘛)：[Xunlei Bin](https://aur.archlinux.org/packages/xunlei-bin/)
 4. 为了不把镜像搞得特别大，所以我决定从 `ubuntu:20.04` 开始搞起，基本思路就是安装以下几个基础组件：`tightvncserver + novnc + icewm + com.xunlei.download`
