@@ -8,6 +8,14 @@ categories:
 description: 尝试多种方案，最后决定自己搞一下
 keywords: 迅雷,thunder
 ---
+### 更新
+
+1. 从 `novnc` 换成了 `xpra`，个人感觉更快了，剪切板支持也更好了
+
+2. 支持环境变量 `XPRA_PASSWORD` 更换密码
+
+3. 镜像：`springhack/nas_xunlei_docker:latest` 支持 `latest` 其他的部分没区别
+
 ### 背景
 
 > 说白了还是存在一些应用场景，某些资源还是需要迅雷
