@@ -6,6 +6,14 @@ categories:
   - code
 description: 需要搭配 crontab 一起用
 ---
+> `crontab` 设置
+
+```shell
+*/5  *  *  *  *  /root/cloudflare_ddns
+```
+
+> 脚本
+
 ```shell
 #!/bin/ash
 
@@ -13,8 +21,9 @@ description: 需要搭配 crontab 一起用
 export PATH='/usr/sbin:/usr/bin:/sbin:/bin'
 
 # Params
-API_TOKEN='XXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-API_TARGET_DOMAIN='wtf_sub_domain.dosk.win'
+API_TOKEN='XXXXXXXXXXXXXXXXXXXXXX'
+API_TARGET_DOMAIN_4='ip4.dosk.win'
+API_TARGET_DOMAIN_6='ip6.dosk.win'
 API_ROOT_DOMAIN='dosk.win'
 
 # Runtime params
@@ -51,30 +60,33 @@ zone_id="$(base_request "zones?name=$API_ROOT_DOMAIN" | jsonfilter -e '@["result
 
 ddns_log 'Get IPv4 domain record info ...'
 sleep 1
-v4_info="$(base_request "zones/$zone_id/dns_records?name=$API_TARGET_DOMAIN&type=A")"
+v4_info="$(base_request "zones/$zone_id/dns_records?name=$API_TARGET_DOMAIN_4&type=A")"
 v4_record_id="$(echo $v4_info | jsonfilter -e '@["result"][0].id')"
 v4_record_ip="$(echo $v4_info | jsonfilter -e '@["result"][0].content')"
 
 ddns_log 'Get IPv6 domain record info ...'
 sleep 1
-v6_info="$(base_request "zones/$zone_id/dns_records?name=$API_TARGET_DOMAIN&type=AAAA")"
+v6_info="$(base_request "zones/$zone_id/dns_records?name=$API_TARGET_DOMAIN_6&type=AAAA")"
 v6_record_id="$(echo $v6_info | jsonfilter -e '@["result"][0].id')"
 v6_record_ip="$(echo $v6_info | jsonfilter -e '@["result"][0].content')"
 
 ddns_log 'Info summary ...'
+sleep 1
 ddns_log "IPv4 - $v4_record_id: from $v4_record_ip to $IP4"
 ddns_log "IPv6 - $v6_record_id: from $v6_record_ip to $IP6"
 
 if [ "$IP4" != "$v4_record_ip" ];
 then
   ddns_log 'Do update IPv4 ...'
-  base_update "zones/$zone_id/dns_records/$v4_record_id" "{\"type\":\"A\",\"name\":\"$API_TARGET_DOMAIN\",\"content\":\"$IP4\",\"ttl\":1}" | jsonfilter -e '@["success"]'
+  sleep 1
+  base_update "zones/$zone_id/dns_records/$v4_record_id" "{\"type\":\"A\",\"name\":\"$API_TARGET_DOMAIN_4\",\"content\":\"$IP4\",\"ttl\":1}" | jsonfilter -e '@["success"]'
 fi
 
-if [ "$IP4" != "$v4_record_ip" ];
+if [ "$IP6" != "$v6_record_ip" ];
 then
   ddns_log 'Do update IPv6 ...'
-  base_update "zones/$zone_id/dns_records/$v6_record_id" "{\"type\":\"AAAA\",\"name\":\"$API_TARGET_DOMAIN\",\"content\":\"$IP6\",\"ttl\":1}" | jsonfilter -e '@["success"]'
+  sleep 1
+  base_update "zones/$zone_id/dns_records/$v6_record_id" "{\"type\":\"AAAA\",\"name\":\"$API_TARGET_DOMAIN_6\",\"content\":\"$IP6\",\"ttl\":1}" | jsonfilter -e '@["success"]'
 fi
 
 ddns_log 'All done !'
