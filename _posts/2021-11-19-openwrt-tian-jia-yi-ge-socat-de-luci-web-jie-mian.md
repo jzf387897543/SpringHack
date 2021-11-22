@@ -6,23 +6,20 @@ categories:
   - code
 description: 不搞单独 app 了，就俩文件
 ---
-- 首先安装几个依赖：`opkg update && opkg install socat luci luci-base luci-compat`
-
-- 终端开启 `socat` 服务：`/etc/init.d/socat enable && /etc/init.d/socat start`
-
-- 添加如下两个文件，格式按照 `/etc/config/socat` 来搞就行
-
-- `/usr/lib/lua/luci/controller/socat.lua`
+* 首先安装几个依赖：`opkg update && opkg install socat luci luci-base luci-compat`
+* 终端开启 `socat` 服务：`/etc/init.d/socat enable && /etc/init.d/socat start`
+* 添加如下两个文件，格式按照 `/etc/config/socat` 来搞就行
+* `/usr/lib/lua/luci/controller/socat.lua`
 
 ```lua
 module("luci.controller.socat", package.seeall)
 
 function index()
-         entry({"admin","services","socat"}, cbi("socat"), "Socat", 100)
+  entry({"admin","services","socat"}, cbi("socat"), "Socat", 100)
 end
 ```
 
-- `/usr/lib/lua/luci/model/cbi/socat.lua`
+* `/usr/lib/lua/luci/model/cbi/socat.lua`
 
 ```lua
 require("luci.sys")
