@@ -6,7 +6,6 @@ genpac \
   --format=pac \
   --pac-compress \
   --pac-proxy="SOCKS5 127.0.0.1:7070" \
-  --user-rule="fonticons.com"
   -o pac.txt
 
 git add .
