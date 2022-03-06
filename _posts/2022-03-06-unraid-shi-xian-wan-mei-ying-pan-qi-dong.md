@@ -17,7 +17,7 @@ keywords: unraid, usb, vmware
 
 1. 编译内核，把 `sata` 的驱动从 `m` 改成 `*` 也就是内置而不是单独的文件
 
-2. 还是编译内核，把 `dummy_hcd` 和 `g_mass_storage` 编译成模块(为了做这件事)
+2. 还是编译内核，把 `dummy_hcd` 和 `g_mass_storage` 编译成模块(为了做 `mock` 优盘这件事)
 
 3. 文件替换，`/bzimage` 和 `/bzmodules`，并在 `/config/go` 里面加两句代码
 
