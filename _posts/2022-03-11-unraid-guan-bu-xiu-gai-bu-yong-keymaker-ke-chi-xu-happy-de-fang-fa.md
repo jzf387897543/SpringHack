@@ -1,7 +1,7 @@
 ---
 layout: post
-filename: unraid-guan-bu-xiu-gai-bu-yong-keymaker-ke-chi-xu-happy-de-fang-fa
-title: unraid 官不修改不用 keymaker 可持续 happy 的方法
+filename: unraid-guan-fang-ban-bu-xiu-gai-bu-yong-keymaker-ke-chi-xu-happy-de-fang-fa
+title: unraid 官方版不修改不用 keymaker 可持续 happy 的方法
 categories:
   - code
 description: LD_PRELOAD 听说过么
