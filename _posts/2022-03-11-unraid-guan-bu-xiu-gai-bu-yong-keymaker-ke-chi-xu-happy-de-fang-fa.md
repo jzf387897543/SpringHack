@@ -7,6 +7,15 @@ categories:
 description: LD_PRELOAD 听说过么
 keywords: unraid, keymaker, happy, offical
 ---
+### 前言
+
+1. 文章里的讨论仅限于技术交流，如有需要请 [**购买正版**](https://unraid.net/pricing) ！！！
+2. 文章里的讨论仅限于技术交流，如有需要请 [**购买正版**](https://unraid.net/pricing) ！！
+3. 文章里的讨论仅限于技术交流，如有需要请 [**购买正版**](https://unraid.net/pricing) ！
+4. 请勿分发二进制！！！
+
+
+
 ### 原理
 
 1. `emhttpd` 使用 `RSA_public_decrypt` 去解析 `BTRS.key`，里面是你的注册信息
