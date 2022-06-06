@@ -34,7 +34,7 @@ keywords: synology, btrfs, linux kernel, docker in docker, dind
 
 > 我这里就直接说经过调查的真实原因了，关于 `drone dind` 的层级架构请自行研究吧
 
-1. 群晖使用 `btrfs` 来配合 `docker` 实现 `storage drive`，并且没有 `overlayfs` 支持，所以没得选
+1. 群晖使用 `btrfs` 来配合 `docker` 实现 `storage driver`，并且没有 `overlayfs` 支持，所以没得选
 
 2. 根据 `docker` 的 [官方文档](https://docs.docker.com/storage/storagedriver/btrfs-driver/#how-the-btrfs-storage-driver-works) 提到，镜像在本地其实是一个 `btrfs subvolume`，上层的所有 `layer` 都是 `snapshot`，所以在我的场景里，`drone-docker-runner` 和 `docker:dind` 镜像都是在 *宿主* 也就是群晖上的直接的 `btrfs subvolume`
 
