@@ -49,12 +49,34 @@ typedef int (*RSA_PUBLIC_DECRYPT_FUNC)(int flen, unsigned char* from,
                                        int padding);
 
 static char* unraid_uuid = NULL;
+static char* unraid_name = NULL;
+static char* unraid_date = NULL;
+static char* unraid_version = NULL;
 RSA_PUBLIC_DECRYPT_FUNC rsa_public_decrypt;
 
 int get_dev_path(char* buffer, size_t size);
 int get_usb_device(char* buffer, size_t size);
 int get_serial_string(char* buffer, size_t size);
 void read_file(char* buff_ptr, char* base_ptr, char* file_ptr, char* file);
+
+__attribute__((constructor)) void unraid_init() {
+  if (!rsa_public_decrypt) {
+    rsa_public_decrypt =
+        (RSA_PUBLIC_DECRYPT_FUNC)dlsym(RTLD_NEXT, "RSA_public_decrypt");
+  }
+
+  if (!unraid_uuid) {
+    unraid_uuid = (char*)malloc(1024);
+    strcpy(unraid_uuid, "1234-1234-1234-1234567890AB");
+    int err = get_serial_string(unraid_uuid, 1024);
+    if (err && getenv("UNRAID_UUID")) {
+      strcpy(unraid_uuid, getenv("UNRAID_UUID"));
+    }
+    unraid_name = getenv("UNRAID_NAME");
+    unraid_date = getenv("UNRAID_DATE");
+    unraid_version = getenv("UNRAID_VERSION");
+  }
+}
 
 const char* get_self_exe_name(int full) {
   static char buffer[4096] = "";
@@ -69,24 +91,10 @@ const char* get_self_exe_name(int full) {
 
 int RSA_public_decrypt(int flen, unsigned char* from, unsigned char* to,
                        RSA* rsa, int padding) {
-  if (!rsa_public_decrypt) {
-    rsa_public_decrypt =
-        (RSA_PUBLIC_DECRYPT_FUNC)dlsym(RTLD_NEXT, "RSA_public_decrypt");
-  }
-
-  if (!unraid_uuid) {
-    unraid_uuid = (char*)malloc(1024);
-    strcpy(unraid_uuid, "1234");
-    int err = get_serial_string(unraid_uuid, 1024);
-    if (err && getenv("UNRAID_UUID")) {
-      strcpy(unraid_uuid, getenv("UNRAID_UUID"));
-    }
-  }
-
   if (!strcmp(get_self_exe_name(0), "emhttpd") ||
       !strcmp(get_self_exe_name(0), "shfs")) {
-    sprintf(to, BTRS_FORMAT, unraid_uuid, getenv("UNRAID_VERSION"),
-            getenv("UNRAID_NAME"), getenv("UNRAID_DATE"));
+    sprintf(to, BTRS_FORMAT, unraid_uuid, unraid_version, unraid_name,
+            unraid_date);
     int len = strlen(to);
     return len;
   } else {
@@ -232,5 +240,4 @@ int main() {
   }
   return 0;
 }
-
 ```
