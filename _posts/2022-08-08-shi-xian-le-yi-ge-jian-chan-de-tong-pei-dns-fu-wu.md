@@ -41,7 +41,6 @@ export Dosk_Server='http://dns.yourdomain.com'
 # 配置你的 token 和 auth
 export Dosk_Auth=你的auth
 export Dosk_Token=你的token
-
 ```
 
 5. 申请证书，加上 `--dns dosk_dns` 选项，其他选项你酌情自己更改：
