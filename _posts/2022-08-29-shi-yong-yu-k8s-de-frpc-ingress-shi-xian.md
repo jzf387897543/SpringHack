@@ -49,7 +49,7 @@ spec:
     - port: 53
       name: dns
       protocol: UDP
-    - port: 5353
+    - port: 8000
       name: http
       protocol: TCP
   selector:
@@ -77,9 +77,9 @@ spec:
   kind: Rule
   service:
     name: demo-service
-    port: 5333
+    port: 8000
     protocol: TCP
-    remotePort: 5333
+    remotePort: 8000
     # extraConfig:
     #   - foo = baz
 ```
