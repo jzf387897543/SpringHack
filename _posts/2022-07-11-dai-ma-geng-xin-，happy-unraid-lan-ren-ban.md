@@ -216,8 +216,10 @@ int get_serial_string(char* buffer, size_t size) {
   strcat(buff_ptr, "-");
   buff_ptr += strlen(buff_ptr);
 
-  char serial_buffer[1024];
-  read_file(serial_buffer, usb_device, file_ptr, "/serial");
+  char raw_serial_buffer[1024];
+  read_file(raw_serial_buffer, usb_device, file_ptr, "/serial");
+  int serial_length = strlen(raw_serial_buffer);
+  char* serial_buffer = &raw_serial_buffer[serial_length - 16];
   strcpy(buff_ptr, serial_buffer);
   *(buff_ptr + 4) = '-';
   strcpy(buff_ptr + 5, &serial_buffer[4]);
