@@ -1,6 +1,6 @@
 /*
  *  Author: SpringHack - springhack@live.cn
- *  Last modified: 2021-09-14 19:17:28
+ *  Last modified: 2022-09-27 16:51:31
  *  Filename: index.css
  *  Description: Created by SpringHack using vim automatically.
  */
@@ -16,4 +16,9 @@
   border-radius: 10px;
   border: 0;
   box-shadow: 0 0 20px 0px;
+}
+
+/* workground for react-slate with chrome 105+ */
+div[data-slate-editor=true]:not(.disabled) {
+  -webkit-user-modify: read-write !important;
 }
