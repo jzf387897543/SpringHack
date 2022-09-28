@@ -54,6 +54,22 @@ Usage:
 EOF
 }
 
+remove_last_column() {
+  awk -F- 'OFS="-"{$NF="";print}' | sed 's/-$//g' | xargs
+}
+
+get_pkg_name() {
+  remove_last_column | remove_last_column | remove_last_column
+}
+
+get_pkg_vers() {
+  remove_last_column | remove_last_column | awk -F- '{print $NF}'
+}
+
+get_pkg_arch() {
+  remove_last_column | awk -F- '{print $NF}'
+}
+
 ensure_update() {
   cached="yes"
   for repo in "${REPO_NAME[@]}";
@@ -78,23 +94,37 @@ case $opt in
     for repo in "${REPO_NAME[@]}";
     do
       repo_pkgs_url="${REPO_URLS[$repo]}/PACKAGES.TXT"
-      echo "update repo($repo) url($repo_pkgs_url) ..."
+      log '' '<=>' "Update repo($repo) url($repo_pkgs_url) ..."
       curl -fSL --progress-bar "$repo_pkgs_url" -o /tmp/spkg.d/$repo.list
     done
-    echo "DONE !"
+    log '' '***' 'Done !'
     ;;
   search)
     ensure_update
-    log '' $(tr 'a-z' 'A-Z' <<< $opt) "Search repo ..."
+    log '' $(tr 'a-z' 'A-Z' <<< $opt) "Search repo for: $pkgs_list ..."
+    printf "%-32s %-20s %-20s\n" "PACKAGE" "VERSION" "ARCHITECTURE"
     for pkg in $pkgs_list;
     do
-      echo "search pkg($pkg) ..."
-      cat /tmp/spkg.d/*.list | grep -ni "PACKAGE NAME:  $pkg" | awk '{print $3}'
+      files="$(cat /tmp/spkg.d/*.list | grep -ni "PACKAGE NAME:  *${pkg}*" | awk '{print $3}')"
+      if [ "$files" != "" ];
+      then
+        for file in $files;
+        do
+          name="$(get_pkg_name <<< "${file}")"
+          vers="$(get_pkg_vers <<< "${file}")"
+          arch="$(get_pkg_arch <<< "${file}")"
+          if [ "$name" != "" ];
+          then
+            printf "%-32s %-20s %-20s\n" "$name" "$vers" "$arch"
+          fi
+        done
+      fi
     done
     ;;
-  install)
+  install|upgrade)
     ensure_update
-    log '' $(tr 'a-z' 'A-Z' <<< $opt) "Install packages: ${pkgs_list} ..."
+    opt_txt="$(tr 'a-z' 'A-Z' <<< ${opt:0:1})${opt:1}"
+    log '' $(tr 'a-z' 'A-Z' <<< $opt) "${opt_txt} packages: ${pkgs_list} ..."
     for pkg in $pkgs_list;
     do
       grep_command="grep -niH 'PACKAGE NAME:  ${pkg}'"
@@ -102,18 +132,33 @@ case $opt in
       do
         grep_command="$grep_command /tmp/spkg.d/${repo}.list"
       done
-      info="$(eval "$grep_command" | head -n1)"
+      info=""
+      lines="$(eval "$grep_command" | sed 's/PACKAGE NAME:  //g')"
+      for line in $lines;
+      do
+        maybe_file="$(awk -F: '{print $3}' <<< "${line}")"
+        maybe_name="$(get_pkg_name <<< $maybe_file)"
+        if [ "$maybe_name" = "$pkg" ];
+        then
+          info="$line"
+        fi
+      done
+      if [ "$info" = "" ];
+      then
+        log '' '***' "Package not found: $pkg ..."
+        continue
+      fi
       repo=$(basename $(awk -F: '{print $1}' <<< "$info") .list)
       line="$(awk -F: '{print $2}' <<< "${info}")"
-      name="$(awk '{print $3}' <<< "${info}")"
+      file="$(awk -F: '{print $3}' <<< "${info}")"
       location="$(tail +${line} /tmp/spkg.d/${repo}.list | grep "PACKAGE LOCATION" | head -n1 | awk '{print $3}')"
-      file_url="${REPO_URLS[$repo]}/$location/$name"
+      file_url="${REPO_URLS[$repo]}/$location/$file"
       file_url="${file_url/\.\//}"
-      log '' '<=>' "Download pkg($name) in repo($repo) with url($file_url) ..."
-      curl -fSL --progress-bar "$file_url" -o /boot/extra/${name}
-      log '' '<=>' "Install pkg($name) in repo($repo) with url($file_url) ..."
-      installpkg /boot/extra/${name}
-      log '' '***' "Package $name installed !"
+      log '' '<=>' "Download pkg($file) in repo($repo) with url($file_url) ..."
+      curl -fSL --progress-bar "$file_url" -o /boot/extra/${file}
+      log '' '<=>' "${opt_txt} pkg($file) in repo($repo) with url($file_url) ..."
+      eval "${opt}pkg /boot/extra/${file}"
+      log '' '***' "Package $file installed !"
     done
     ;;
   remove)
@@ -121,23 +166,47 @@ case $opt in
     log '' $(tr 'a-z' 'A-Z' <<< $opt) "Remove packages: ${pkgs_list} ..."
     for pkg in $pkgs_list;
     do
-      removepkg $pkg
-      for file in $(find /boot/extra -type f -name "$pkg*");
+      file=""
+      files="$(ls /var/log/packages/${pkg}* 2>/dev/null | xargs basename 2>/dev/null)"
+      for maybe_file in $files;
+      do
+        maybe_name="$(get_pkg_name <<< $maybe_file)"
+        if [ "$maybe_name" = "$pkg" ];
+        then
+          file="$maybe_file"
+        fi
+      done
+      if [ "$file" = "" ];
+      then
+        log '' '***' "Package not install: $pkg ..."
+        continue
+      fi
+      removepkg $file
+      for file in $(find /boot/extra -type f -name "$file*");
       do
         rm $file
       done
     done
     ;;
-  upgrade)
-    ensure_update
-    log '' $(tr 'a-z' 'A-Z' <<< $opt) "Upgrade packages: ${pkgs_list} ..."
-    "$0" remove $pkgs_list
-    "$0" install $pkgs_list
-    ;;
   list)
     ensure_update
     log '' $(tr 'a-z' 'A-Z' <<< $opt) "List packages: ${pkgs_list} ..."
-    ls /var/log/packages/ | grep "$pkg"
+    printf "%-32s %-20s %-20s\n" "PACKAGE" "VERSION" "ARCHITECTURE"
+    pkgs="$(sed 's/ /\\|/g' <<< "${pkgs_list}")"
+    files="$(ls /var/log/packages/ | grep "$pkgs")"
+    if [ "$files" != "" ];
+    then
+      for file in $files;
+      do
+        name="$(get_pkg_name <<< "${file}")"
+        vers="$(get_pkg_vers <<< "${file}")"
+        arch="$(get_pkg_arch <<< "${file}")"
+        if [ "$name" != "" ];
+        then
+          printf "%-32s %-20s %-20s\n" "$name" "$vers" "$arch"
+        fi
+      done
+    fi
     ;;
   *)
     log '' '*' 'No such operation !'
@@ -147,4 +216,5 @@ case $opt in
 esac
 
 exit 0
+
 ```
