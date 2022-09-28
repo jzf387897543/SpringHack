@@ -26,53 +26,123 @@ spkg help
 ```bash
 #!/bin/bash
 
-BASE_URL="https://mirrors.aliyun.com/slackware/slackware64-current"
-PKGS_URL="https://mirrors.slackware.com/slackware/slackware64-current"
-LIST_URL="$BASE_URL/slackware64/PACKAGES.TXT"
-
-if ! [ -f /tmp/spkg.list ];
-then
-  curl -fsSL "$LIST_URL" -o /tmp/spkg.list
-fi
+REPO_VERS="slackware64"
+REPO_NAME=(
+  "slackware"
+  "conraid"
+)
+declare -A REPO_URLS=(
+  ["slackware"]="https://mirrors.slackware.com/slackware/slackware64-current"
+  ["conraid"]="https://slack.conraid.net/repository/slackware64-current"
+)
 
 opt="$1"
-pkg="$2"
+shift
+pkgs_list="$@"
 mkdir -p /boot/extra
+
+log() {
+  eol=${4:-"\n"}
+  echo -n -e "$1\033[0;35m[$2]\033[0m $3$eol" 1>&2
+}
 
 usage() {
   cat << EOF
 Usage:
-  spkg [OPERATION] [PACKAGE_NAME]
-    OPERATION: search/install/remove/list/help
+  spkg [OPERATION] [PACKAGE_NAME...]
+    OPERATION: update/upgrade/search/install/remove/list/help
 EOF
 }
 
+ensure_update() {
+  cached="yes"
+  for repo in "${REPO_NAME[@]}";
+  do
+    if ! [ -f /tmp/spkg.d/${repo}.list ];
+    then
+      cached="no"
+    fi
+  done
+  if [ "$cached" != "yes" ];
+  then
+    log '' '*' 'No repo cache in local, need run update first !'
+    exit -2
+  fi
+}
+
 case $opt in
-  search)
-    cat /tmp/spkg.list | grep -ni "PACKAGE NAME:.*$pkg" | awk '{print $3}'
-    ;;
-  install)
-    name=$(cat /tmp/spkg.list | grep -ni "PACKAGE NAME:.*$pkg" | head -n1 | awk '{print $3}')
-    name_line=$(cat /tmp/spkg.list | grep -ni "PACKAGE NAME:.*$pkg" | head -n1 |  awk -F: '{print $1}')
-    dir_line=$(( $name_line + 1 ))
-    dir=$(cat /tmp/spkg.list | sed -n "${dir_line}p" | awk '{print $3}')
-    url="${PKGS_URL}/${dir}/${name}"
-    wget -4 "$url" -O /boot/extra/${name}
-    installpkg /boot/extra/${name}
-    ;;
-  remove)
-    removepkg $pkg
-    for file in $(find /boot/extra -type f -name "$pkg*");
+  update)
+    log '' $(tr 'a-z' 'A-Z' <<< $opt) "Update repo ..."
+    rm -rvf /tmp/spkg.d >/dev/null 2>&1
+    mkdir -p /tmp/spkg.d
+    for repo in "${REPO_NAME[@]}";
     do
-      rm $file
+      repo_pkgs_url="${REPO_URLS[$repo]}/PACKAGES.TXT"
+      echo "update repo($repo) url($repo_pkgs_url) ..."
+      curl -fSL --progress-bar "$repo_pkgs_url" -o /tmp/spkg.d/$repo.list
+    done
+    echo "DONE !"
+    ;;
+  search)
+    ensure_update
+    log '' $(tr 'a-z' 'A-Z' <<< $opt) "Search repo ..."
+    for pkg in $pkgs_list;
+    do
+      echo "search pkg($pkg) ..."
+      cat /tmp/spkg.d/*.list | grep -ni "PACKAGE NAME:  $pkg" | awk '{print $3}'
     done
     ;;
+  install)
+    ensure_update
+    log '' $(tr 'a-z' 'A-Z' <<< $opt) "Install packages: ${pkgs_list} ..."
+    for pkg in $pkgs_list;
+    do
+      grep_command="grep -niH 'PACKAGE NAME:  ${pkg}'"
+      for repo in "${REPO_NAME[@]}";
+      do
+        grep_command="$grep_command /tmp/spkg.d/${repo}.list"
+      done
+      info="$(eval "$grep_command" | head -n1)"
+      repo=$(basename $(awk -F: '{print $1}' <<< "$info") .list)
+      line="$(awk -F: '{print $2}' <<< "${info}")"
+      name="$(awk '{print $3}' <<< "${info}")"
+      location="$(tail +${line} /tmp/spkg.d/${repo}.list | grep "PACKAGE LOCATION" | head -n1 | awk '{print $3}')"
+      file_url="${REPO_URLS[$repo]}/$location/$name"
+      file_url="${file_url/\.\//}"
+      log '' '<=>' "Download pkg($name) in repo($repo) with url($file_url) ..."
+      curl -fSL --progress-bar "$file_url" -o /boot/extra/${name}
+      log '' '<=>' "Install pkg($name) in repo($repo) with url($file_url) ..."
+      installpkg /boot/extra/${name}
+      log '' '***' "Package $name installed !"
+    done
+    ;;
+  remove)
+    ensure_update
+    log '' $(tr 'a-z' 'A-Z' <<< $opt) "Remove packages: ${pkgs_list} ..."
+    for pkg in $pkgs_list;
+    do
+      removepkg $pkg
+      for file in $(find /boot/extra -type f -name "$pkg*");
+      do
+        rm $file
+      done
+    done
+    ;;
+  upgrade)
+    ensure_update
+    log '' $(tr 'a-z' 'A-Z' <<< $opt) "Upgrade packages: ${pkgs_list} ..."
+    "$0" remove $pkgs_list
+    "$0" install $pkgs_list
+    ;;
   list)
+    ensure_update
+    log '' $(tr 'a-z' 'A-Z' <<< $opt) "List packages: ${pkgs_list} ..."
     ls /var/log/packages/ | grep "$pkg"
     ;;
   *)
-    echo 'no such operation'
+    log '' '*' 'No such operation !'
     usage
+    exit -1
     ;;
 esac
 
