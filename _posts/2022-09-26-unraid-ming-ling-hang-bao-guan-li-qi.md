@@ -151,7 +151,8 @@ case $opt in
       repo=$(basename $(awk -F: '{print $1}' <<< "$info") .list)
       line="$(awk -F: '{print $2}' <<< "${info}")"
       file="$(awk -F: '{print $3}' <<< "${info}")"
-      location="$(tail +${line} /tmp/spkg.d/${repo}.list | grep "PACKAGE LOCATION" | head -n1 | awk '{print $3}')"
+      location_all="$(tail +${line} /tmp/spkg.d/${repo}.list | grep "PACKAGE LOCATION")"
+      location="$(head -n1 <<< "${location_all}" | awk '{print $3}')"
       file_url="${REPO_URLS[$repo]}/$location/$file"
       file_url="${file_url/\.\//}"
       log '' '<=>' "Download pkg($file) in repo($repo) with url($file_url) ..."
