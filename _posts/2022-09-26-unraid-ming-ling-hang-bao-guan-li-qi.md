@@ -9,6 +9,8 @@ keywords: unraid, package manager, spkg, nerdtool
 ---
 ### Usage
 
+> 更新：新增了在线下载地址，可以从这里获取最新版 `https://dosk.host/repo/shell/spkg`，并且增加了 `self-upgrade` 命令更新自己
+
 > 就一个命令 `spkg`，非常简单
 
 ```bash
