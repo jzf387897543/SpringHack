@@ -1,6 +1,6 @@
 /*
  *  Author: SpringHack - springhack@live.cn
- *  Last modified: 2022-06-18 13:21:22
+ *  Last modified: 2022-09-28 15:27:00
  *  Filename: passport.js
  *  Description: Created by SpringHack using vim automatically.
  */
@@ -20,18 +20,13 @@ login.addEventListener('click', async () => {
   form.set('token', pass.value);
   let token = null;
   try {
-    token = await fetch('https://win.dosk.win/', {
-      method: 'POST',
-      body: form
-    }).then(res => res.text());
+    token = await fetch('https://win.dosk.win/', {method: 'POST', body: form})
+                .then(res => res.text());
   } catch (err) {
     alert(`Login failed: ${err.message}`);
     doLoading(false);
     return;
   }
-  window.parent.postMessage({
-    type: 'passport',
-    token
-  }, '*');
+  window.parent.postMessage({type: 'passport', token}, '*');
   doLoading(false);
 });

@@ -20,6 +20,7 @@ published: true
 > 梦想成为一个小小的全栈；
 
 > 技能点的话:
+  - Kubernetes/Golang/HomeLab
   - C/C++/ObjC:
     - Because Google Chromium
     - Basic client architecture
@@ -44,8 +45,6 @@ published: true
     - NOIP 二等奖渣渣; ACM 国家邀请赛三等奖渣渣, 亚洲区打酱油一次
   - 美术功底
     - 这个就当娱乐吧, 国画, 满级, 对美有自己的独特理解
-  - 坚持不懈
-    - 娱乐, 为解决问题连续20+小时不睡觉的人，消费声明
 
 > 学杂了 - -
 
@@ -54,7 +53,7 @@ Email: springhack#live•cn
 
 ## 啥啊
 
-> 发点做过的好玩的东西，不限于前端，但是都是我擅长的领域(我的Github上都能找到)：
+> 大部分都失效了，留作存档，做过的好玩的东西，不限于前端，但是都是我擅长的领域：
 
 #### 沈阳航空航天大学 ACM/ICPC Online Judge && Virtual Judge 系统：
 > 从前端到后端再到评测进程和爬虫进程完全自己写的，PHP7 + Python，使用 Linux 内核相关技术实现评测安全管理(和hustoj思路一致) - -

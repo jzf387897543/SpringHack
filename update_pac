@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git pull -r
+# git pull -r
 
 genpac \
   --format=pac \
@@ -8,6 +8,6 @@ genpac \
   --pac-proxy="SOCKS5 127.0.0.1:7070" \
   -o pac.txt
 
-git add .
-git commit -m "Update PAC: $(date)"
-git push
+# git add .
+# git commit -m "Update PAC: $(date)"
+# git push

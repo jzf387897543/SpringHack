@@ -1,6 +1,6 @@
 ### 小破站
 
-> https://www.dosk.win/
+> https://dosk.win/ + https://dosk.host/
 
 ### 学人家搞的统计
 
