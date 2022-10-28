@@ -17,7 +17,7 @@ keywords: google, chrome, translate
 
 ### 基本代码
 
-```ini
+```
 global
   log 127.0.0.1 local3
   chroot /var/lib/haproxy
