@@ -4,6 +4,8 @@
 
 ### 学人家搞的统计
 
+![](https://profile-counter.glitch.me/springhack/count.svg)
+
 [![SpringHack's github stats](https://github-readme-stats.vercel.app/api?username=springhack&ount_private=true&show_icons=true&theme=merko)](https://github.com/springhack)
 
 ### 看着好玩抄人家的 Logo
